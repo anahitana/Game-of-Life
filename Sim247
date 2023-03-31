@@ -1,0 +1,259 @@
+import java.awt.Color;
+import javax.swing.*;
+
+public class Sim247 extends JFrame {
+
+    private int m = 100;// width and height of square
+    private int N; // max number of iteration
+    private char type;
+    boolean[][] current;
+    boolean[][] prev;
+    public Picture pic;
+
+    int neigh1, neigh2, neigh3, neigh4, neigh5, neigh6, neigh7, neigh8;
+
+    public Sim247(int N, char type) {
+        this.N = N;
+        this.prev = new boolean[m][m];
+        this.current = new boolean[m][m];
+        this.type = type;
+
+        pic = new Picture(m * 6, m * 6);
+
+        if (type == 'R') {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < m; j++) {
+                    prev[i][j] = Math.random() < 0.5;
+                    current[i][j] = false;
+                }
+            }
+        }
+        if (type == 'M') {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < m; j++) {
+                    prev[i][j] = false;
+                    current[i][j] = false;
+                }
+            }
+            prev[1][3] = true;
+            prev[2][2] = true;
+            prev[2][4] = true;
+            prev[4][1] = true;
+            prev[4][2] = true;
+            prev[5][1] = true;
+            prev[4][6] = true;
+            prev[5][7] = true;
+            prev[6][6] = true;
+            prev[6][4] = true;
+            prev[7][4] = true;
+            prev[7][3] = true;
+        }
+
+        if (type == 'T') {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < m; j++) {
+                    prev[i][j] = false;
+                    current[i][j] = false;
+                }
+            }
+            prev[2][1] = true;
+            prev[3][1] = true;
+            prev[4][1] = true;
+            prev[12][1] = true;
+            prev[2][2] = true;
+            prev[3][2] = true;
+            prev[6][2] = true;
+            prev[8][2] = true;
+            prev[9][2] = true;
+            prev[11][2] = true;
+            prev[12][2] = true;
+            prev[4][3] = true;
+            prev[5][3] = true;
+            prev[6][3] = true;
+            prev[11][3] = true;
+            prev[2][4] = true;
+            prev[5][4] = true;
+            prev[7][4] = true;
+            prev[11][4] = true;
+            prev[1][5] = true;
+            prev[6][5] = true;
+            prev[11][5] = true;
+            prev[1][6] = true;
+            prev[6][6] = true;
+            prev[11][6] = true;
+            prev[2][7] = true;
+            prev[5][7] = true;
+            prev[7][7] = true;
+            prev[11][7] = true;
+            prev[4][8] = true;
+            prev[5][8] = true;
+            prev[6][8] = true;
+            prev[11][8] = true;
+            prev[2][9] = true;
+            prev[3][9] = true;
+            prev[6][9] = true;
+            prev[8][9] = true;
+            prev[9][9] = true;
+            prev[11][9] = true;
+            prev[12][9] = true;
+            prev[2][10] = true;
+            prev[3][10] = true;
+            prev[4][10] = true;
+            prev[12][10] = true;
+        }
+
+    }
+
+    public void update() {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                if (i == 0 && j == 0) {
+                    neigh1 = (prev[99][99]) ? 1 : 0;
+                    neigh2 = (prev[0][99]) ? 1 : 0;
+                    neigh3 = (prev[1][99]) ? 1 : 0;
+                    neigh4 = (prev[99][0]) ? 1 : 0;
+                    neigh5 = (prev[1][0]) ? 1 : 0;
+                    neigh6 = (prev[0][1]) ? 1 : 0;
+                    neigh7 = (prev[99][1]) ? 1 : 0;
+                    neigh8 = (prev[1][1]) ? 1 : 0;
+                } else if (i == 0 && j == 99) {
+                    neigh1 = (prev[99][98]) ? 1 : 0;
+                    neigh2 = (prev[99][99]) ? 1 : 0;
+                    neigh3 = (prev[99][0]) ? 1 : 0;
+                    neigh4 = (prev[0][98]) ? 1 : 0;
+                    neigh5 = (prev[0][0]) ? 1 : 0;
+                    neigh6 = (prev[1][98]) ? 1 : 0;
+                    neigh7 = (prev[1][99]) ? 1 : 0;
+                    neigh8 = (prev[1][0]) ? 1 : 0;
+                } else if (i == 99 && j == 0) {
+                    neigh1 = (prev[98][99]) ? 1 : 0;
+                    neigh2 = (prev[98][0]) ? 1 : 0;
+                    neigh3 = (prev[98][1]) ? 1 : 0;
+                    neigh4 = (prev[99][99]) ? 1 : 0;
+                    neigh5 = (prev[99][1]) ? 1 : 0;
+                    neigh6 = (prev[0][99]) ? 1 : 0;
+                    neigh7 = (prev[0][0]) ? 1 : 0;
+                    neigh8 = (prev[0][1]) ? 1 : 0;
+                } else if (i == 99 && j == 99) {
+                    neigh1 = (prev[98][98]) ? 1 : 0;
+                    neigh2 = (prev[99][98]) ? 1 : 0;
+                    neigh3 = (prev[0][98]) ? 1 : 0;
+                    neigh4 = (prev[98][99]) ? 1 : 0;
+                    neigh5 = (prev[0][99]) ? 1 : 0;
+                    neigh6 = (prev[98][0]) ? 1 : 0;
+                    neigh7 = (prev[99][0]) ? 1 : 0;
+                    neigh8 = (prev[0][0]) ? 1 : 0;
+                } else if (i == 0) {
+                    neigh1 = (prev[99][j - 1]) ? 1 : 0;
+                    neigh2 = (prev[0][j - 1]) ? 1 : 0;
+                    neigh3 = (prev[1][j - 1]) ? 1 : 0;
+                    neigh4 = (prev[99][j]) ? 1 : 0;
+                    neigh5 = (prev[1][j + 1]) ? 1 : 0;
+                    neigh6 = (prev[1][j]) ? 1 : 0;
+                    neigh7 = (prev[99][j + 1]) ? 1 : 0;
+                    neigh8 = (prev[0][j + 1]) ? 1 : 0;
+                } else if (i == 99) {
+                    neigh1 = (prev[98][j - 1]) ? 1 : 0;
+                    neigh2 = (prev[99][j - 1]) ? 1 : 0;
+                    neigh3 = (prev[0][j - 1]) ? 1 : 0;
+                    neigh4 = (prev[98][j]) ? 1 : 0;
+                    neigh5 = (prev[0][j]) ? 1 : 0;
+                    neigh6 = (prev[98][j + 1]) ? 1 : 0;
+                    neigh7 = (prev[99][j + 1]) ? 1 : 0;
+                    neigh8 = (prev[0][j + 1]) ? 1 : 0;
+                } else if (j == 0) {
+                    neigh1 = (prev[i - 1][99]) ? 1 : 0;
+                    neigh2 = (prev[i][99]) ? 1 : 0;
+                    neigh3 = (prev[i + 1][99]) ? 1 : 0;
+                    neigh4 = (prev[i - 1][0]) ? 1 : 0;
+                    neigh5 = (prev[i + 1][0]) ? 1 : 0;
+                    neigh6 = (prev[i - 1][1]) ? 1 : 0;
+                    neigh7 = (prev[i][1]) ? 1 : 0;
+                    neigh8 = (prev[i + 1][1]) ? 1 : 0;
+                } else if (j == 99) {
+                    neigh1 = (prev[i - 1][98]) ? 1 : 0;
+                    neigh2 = (prev[i][98]) ? 1 : 0;
+                    neigh3 = (prev[i + 1][98]) ? 1 : 0;
+                    neigh4 = (prev[i - 1][99]) ? 1 : 0;
+                    neigh5 = (prev[i + 1][99]) ? 1 : 0;
+                    neigh6 = (prev[i - 1][0]) ? 1 : 0;
+                    neigh7 = (prev[i][0]) ? 1 : 0;
+                    neigh8 = (prev[i + 1][0]) ? 1 : 0;
+                } else {
+                    neigh1 = (prev[i - 1][j - 1]) ? 1 : 0;
+                    neigh2 = (prev[i][j - 1]) ? 1 : 0;
+                    neigh3 = (prev[i + 1][j - 1]) ? 1 : 0;
+                    neigh4 = (prev[i - 1][j]) ? 1 : 0;
+                    neigh5 = (prev[i + 1][j]) ? 1 : 0;
+                    neigh6 = (prev[i - 1][j + 1]) ? 1 : 0;
+                    neigh7 = (prev[i][j + 1]) ? 1 : 0;
+                    neigh8 = (prev[i + 1][j + 1]) ? 1 : 0;
+                }
+
+                int sum = neigh1 + neigh2 + neigh3 + neigh4 + neigh5 + neigh6 + neigh7 + neigh8;
+                if (prev[i][j] == true) {
+                    if (sum == 2 || sum == 3) {
+                        current[i][j] = true;
+                    } else {
+                        current[i][j] = false;
+                    }
+                } else {
+                    if (sum == 3) {
+                        current[i][j] = true;
+                    } else {
+                        current[i][j] = false;
+                    }
+                }
+
+            }
+
+        }
+        // prev = current;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                if (current[i][j]) {
+                    prev[i][j] = true;
+                } else {
+                    prev[i][j] = false;
+                }
+            }
+        }
+    }
+
+    public void draw() {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+
+                // for coloring every square
+                for (int x = 0; x < 6; x++) {
+                    for (int y = 0; y < 6; y++) {
+                        if (prev[i][j]) {
+                            pic.set(i * 6 + x, j * 6 + y, Color.BLACK);
+                        } else {
+                            pic.set(i * 6 + x, j * 6 + y, Color.WHITE);
+                        }
+                    }
+                }
+            }
+        }
+        pic.show();
+    }
+
+    public static void main(String[] args) {
+        int N = Integer.parseInt(args[0]);
+        char type = args[1].charAt(0);
+
+        Sim247 demo = new Sim247(N, type);
+
+        for (int i = 0; i < N; i++) {
+            try {
+                Thread.sleep(350);
+            } catch (Exception ex) {
+            }
+            demo.update();
+            demo.draw();
+
+        }
+    }
+
+}
